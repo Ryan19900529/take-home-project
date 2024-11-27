@@ -61,7 +61,11 @@ function App() {
         sections={sections}
         setSections={setSections}
       />
-      <Render isDragging={isDragging} />
+      <Render
+        isDragging={isDragging}
+        renderItems={renderItems}
+        setRenderItems={setRenderItems}
+      />
     </div>
   );
 }

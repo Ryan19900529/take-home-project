@@ -1,7 +1,7 @@
 import React from "react";
 import RenderItem from "./RenderItem";
 
-const Render = ({ isDragging }) => {
+const Render = ({ isDragging, renderItems, setRenderItems }) => {
   return (
     <div className='render'>
       <div className={`render_box ${isDragging ? "active" : ""}`}>
@@ -11,11 +11,15 @@ const Render = ({ isDragging }) => {
         <div className='render_box_img_wrapper'>
           <img src='/img/render_slideshow.png' alt='' />
         </div>
-        <RenderItem />
-        <RenderItem />
-        <RenderItem />
-        <RenderItem />
-        <RenderItem />
+        {renderItems.map((renderItem) => {
+          return (
+            <RenderItem
+              key={renderItem.id}
+              renderItem={renderItem}
+              isDragging={isDragging}
+            />
+          );
+        })}
       </div>
     </div>
   );

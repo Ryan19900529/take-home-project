@@ -1,9 +1,9 @@
 import React from "react";
 
-const RenderItem = () => {
+const RenderItem = ({ renderItem, isDragging }) => {
   return (
     <div className='render_box_img_wrapper'>
-      <img src='/img/render_slideshow.png' alt='' />
+      <img src={`/img/${renderItem.img}`} alt='' />
     </div>
   );
 };

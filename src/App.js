@@ -1,8 +1,12 @@
+import Controller from "./components/Controller";
+import Render from "./components/Render";
+import "./App.css";
+
 function App() {
   return (
     <div className='App'>
-      <h1>hi</h1>
-      <p>wef</p>
+      <Controller />
+      <Render />
     </div>
   );
 }

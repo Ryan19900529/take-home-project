@@ -2,6 +2,14 @@ import Controller from "./components/Controller";
 import Render from "./components/Render";
 import "./App.css";
 import { useState } from "react";
+import {
+  closestCorners,
+  DndContext,
+  MouseSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
 
 function App() {
   const [isDragging, setIsDragging] = useState(false);
@@ -53,19 +61,47 @@ function App() {
     { id: "r6", img: "render_consultation.png", visibility: true },
   ]);
 
+  // prevent DND Kit's event listeners intercepting click events on the visibility toggle
+  const sensor = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 8 } })
+  );
+
+  const getPositionById = (id, states) =>
+    states.findIndex((state) => state.id === id);
+
+  const handleDragEnd = (e) => {
+    const { active, over } = e;
+
+    if (active.id === over.id) return;
+
+    setSections((prevSections) => {
+      const startPos = getPositionById(active.id, sections);
+      const endPos = getPositionById(over.id, sections);
+
+      return arrayMove(sections, startPos, endPos);
+    });
+  };
+
   return (
     <div className='App'>
-      <Controller
-        isDragging={isDragging}
-        setIsDragging={setIsDragging}
-        sections={sections}
-        setSections={setSections}
-      />
-      <Render
-        isDragging={isDragging}
-        renderItems={renderItems}
-        setRenderItems={setRenderItems}
-      />
+      <DndContext
+        sensors={sensor}
+        onDragEnd={handleDragEnd}
+        collisionDetection={closestCorners}
+      >
+        <Controller
+          isDragging={isDragging}
+          setIsDragging={setIsDragging}
+          sections={sections}
+          setSections={setSections}
+        />
+
+        <Render
+          isDragging={isDragging}
+          renderItems={renderItems}
+          setRenderItems={setRenderItems}
+        />
+      </DndContext>
     </div>
   );
 }

@@ -1,5 +1,9 @@
 import React from "react";
 import Section from "./Section";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 const Controller = ({ isDragging, setIsDragging, sections, setSections }) => {
   return (
@@ -20,17 +24,19 @@ const Controller = ({ isDragging, setIsDragging, sections, setSections }) => {
           Slideshow
         </p>
       </div>
-      {sections.map((section) => {
-        return (
-          <Section
-            key={section.id}
-            section={section}
-            isDragging={isDragging}
-            setIsDragging={setIsDragging}
-            setSections={setSections}
-          />
-        );
-      })}
+      <SortableContext items={sections} strategy={verticalListSortingStrategy}>
+        {sections.map((section) => {
+          return (
+            <Section
+              key={section.id}
+              section={section}
+              isDragging={isDragging}
+              setIsDragging={setIsDragging}
+              setSections={setSections}
+            />
+          );
+        })}
+      </SortableContext>
     </div>
   );
 };

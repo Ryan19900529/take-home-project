@@ -1,4 +1,14 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
 const Section = ({ section, isDragging, setIsDragging, setSections }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: section.id });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   const handleMouseDown = () => {
     setIsDragging(true);
   };
@@ -14,7 +24,13 @@ const Section = ({ section, isDragging, setIsDragging, setSections }) => {
     );
   };
   return (
-    <div className={`section ${isDragging ? "dragging" : ""}`}>
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
+      className={`section ${isDragging ? "dragging" : ""}`}
+    >
       <div
         className={`section_img_wrapper ${isDragging ? "dragging" : ""}`}
         onMouseDown={handleMouseDown}

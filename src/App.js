@@ -1,7 +1,7 @@
 import Controller from "./components/Controller";
 import Render from "./components/Render";
 import "./App.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   closestCorners,
   DndContext,
@@ -61,32 +61,46 @@ function App() {
     { id: "r6", img: "render_consultation.png", visibility: true },
   ]);
 
+  const renderContainerRef = useRef(null);
+
   // prevent DND Kit's event listeners intercepting click events on the visibility toggle
   const sensor = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 8 } })
   );
 
+  // helper function
   const getPositionById = (id, states) =>
     states.findIndex((state) => state.id === id);
 
-  const handleDragEnd = (e) => {
+  const handleDragMove = (e) => {
     const { active, over } = e;
 
     if (active.id === over.id) return;
 
-    setSections((prevSections) => {
-      const startPos = getPositionById(active.id, sections);
-      const endPos = getPositionById(over.id, sections);
+    const startPos = getPositionById(active.id, sections);
+    const endPos = getPositionById(over.id, sections);
+    setSections((prev) => arrayMove(sections, startPos, endPos));
 
-      return arrayMove(sections, startPos, endPos);
-    });
+    setRenderItems((prev) => arrayMove(renderItems, startPos, endPos));
+
+    // scrolling to the corresponding render item when a section is dragged
+    const renderItemToScroll = renderContainerRef.current.querySelector(
+      `#${renderItems[endPos].id}`
+    );
+    if (renderItemToScroll) {
+      renderItemToScroll.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
   };
 
   return (
     <div className='App'>
       <DndContext
         sensors={sensor}
-        onDragEnd={handleDragEnd}
+        onDragMove={handleDragMove}
+        // onDragEnd={handleDragEnd}
         collisionDetection={closestCorners}
       >
         <Controller
@@ -100,6 +114,7 @@ function App() {
           isDragging={isDragging}
           renderItems={renderItems}
           setRenderItems={setRenderItems}
+          renderContainerRef={renderContainerRef}
         />
       </DndContext>
     </div>

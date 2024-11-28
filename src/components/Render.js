@@ -10,6 +10,7 @@ const Render = ({
   renderItems,
   setRenderItems,
   renderContainerRef,
+  renderRefs,
 }) => {
   return (
     <div className='render' ref={renderContainerRef}>
@@ -30,6 +31,7 @@ const Render = ({
                 key={renderItem.id}
                 renderItem={renderItem}
                 isDragging={isDragging}
+                renderRefs={renderRefs}
               />
             );
           })}

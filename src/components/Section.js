@@ -1,7 +1,13 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-const Section = ({ section, isDragging, setIsDragging, setSections }) => {
+const Section = ({
+  section,
+  isDragging,
+  setIsDragging,
+  setSections,
+  scrollToRenderItem,
+}) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: section.id });
   const style = {
@@ -11,6 +17,7 @@ const Section = ({ section, isDragging, setIsDragging, setSections }) => {
 
   const handleMouseDown = () => {
     setIsDragging(true);
+    scrollToRenderItem(section.id); // Scroll to the corresponding render item
   };
 
   const handleMouseUp = () => {

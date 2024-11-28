@@ -37,6 +37,7 @@
 
 .section:active{
   color: gray;
+  z-index: 1;
 }
 
 
@@ -80,6 +81,7 @@
 .section_visibility{
   flex-grow: 1;
   font-size: 20px;
+  width: 22.5px;
   text-align: center;
 }
 
@@ -105,7 +107,8 @@
 
 .render_box{
   height: 100%;
-  width: 100%;
+  /* width: 100%; */
+  width: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -95,12 +95,24 @@ function App() {
     }
   };
 
+  const renderRefs = useRef({});
+
+  const scrollToRenderItem = (sectionId) => {
+    const renderItemId = sectionId.replace("s", "r"); // Map section ID to render ID
+    const renderItemRef = renderRefs.current[renderItemId];
+    if (renderItemRef) {
+      renderItemRef.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  };
+
   return (
     <div className='App'>
       <DndContext
         sensors={sensor}
         onDragMove={handleDragMove}
-        // onDragEnd={handleDragEnd}
         collisionDetection={closestCorners}
       >
         <Controller
@@ -108,6 +120,7 @@ function App() {
           setIsDragging={setIsDragging}
           sections={sections}
           setSections={setSections}
+          scrollToRenderItem={scrollToRenderItem}
         />
 
         <Render
@@ -115,6 +128,7 @@ function App() {
           renderItems={renderItems}
           setRenderItems={setRenderItems}
           renderContainerRef={renderContainerRef}
+          renderRefs={renderRefs}
         />
       </DndContext>
     </div>

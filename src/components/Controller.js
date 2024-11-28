@@ -5,7 +5,13 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
-const Controller = ({ isDragging, setIsDragging, sections, setSections }) => {
+const Controller = ({
+  isDragging,
+  setIsDragging,
+  sections,
+  setSections,
+  scrollToRenderItem,
+}) => {
   return (
     <div className='controller'>
       <div className='section' style={{ cursor: "pointer" }}>
@@ -33,6 +39,7 @@ const Controller = ({ isDragging, setIsDragging, sections, setSections }) => {
               isDragging={isDragging}
               setIsDragging={setIsDragging}
               setSections={setSections}
+              scrollToRenderItem={scrollToRenderItem}
             />
           );
         })}

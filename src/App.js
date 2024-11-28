@@ -100,11 +100,37 @@ function App() {
   const scrollToRenderItem = (sectionId) => {
     const renderItemId = sectionId.replace("s", "r"); // Map section ID to render ID
     const renderItemRef = renderRefs.current[renderItemId];
+    // if (renderItemRef) {
+    //   renderItemRef.scrollIntoView({
+    //     behavior: "smooth",
+    //     block: "center",
+    //   });
+    // }
+
     if (renderItemRef) {
-      renderItemRef.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
+      const renderBox = document.querySelector(".render_box");
+
+      // helper function for resizing
+      const scrollAfterResize = () => {
+        const renderBoxRect = renderBox.getBoundingClientRect();
+        const renderItemRect = renderItemRef.getBoundingClientRect();
+
+        // Calculate the new offset after resizing
+        const offsetAdjustment =
+          renderItemRect.top - renderBoxRect.top + renderBox.scrollTop;
+        // renderBox.scrollTop: The current vertical scroll position of the container.
+
+        renderBox.scrollTo({
+          top: offsetAdjustment - 200,
+          behavior: "smooth",
+        });
+
+        // Remove the event listener to avoid unnecessary calls
+        renderBox.removeEventListener("transitionend", scrollAfterResize);
+      };
+
+      // Add a listener to wait for the transition to end
+      renderBox.addEventListener("transitionend", scrollAfterResize);
     }
   };
 

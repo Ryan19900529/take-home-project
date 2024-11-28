@@ -22,6 +22,7 @@ const Section = ({
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    scrollToRenderItem(section.id);
   };
   const handleVisibility = () => {
     setSections((prevSections) =>

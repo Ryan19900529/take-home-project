@@ -35,7 +35,11 @@
   border: 3px solid transparent;
 }
 
-.section:active{
+.section.hide{
+  color: gray;
+}
+
+.section.dragging{
   color: gray;
   z-index: 1;
 }
@@ -108,7 +112,6 @@
 .render_box{
   height: 100%;
   width: 100%;
-  /* width: 60%; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,11 +129,17 @@
 
 .render_box_img_wrapper{
   min-width: 300px;
-  border: 2px solid transparent;  ;
+  border-radius: 3px;
+  border: 3px solid transparent;  
+}
+
+.render_box_img_wrapper.hide{
+  display: none; 
 }
 
 .render_box_img_wrapper.active{
-  border: 2px solid #6776C1;  ;
+  border-radius: 3px;
+  border: 3px solid #6776C1;  
 }
 
 .render_box_img_wrapper img{

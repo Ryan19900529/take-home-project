@@ -8,7 +8,6 @@ import {
 const Render = ({
   isDragging,
   renderItems,
-  setRenderItems,
   renderContainerRef,
   renderRefs,
 }) => {

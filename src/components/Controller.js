@@ -11,6 +11,7 @@ const Controller = ({
   sections,
   setSections,
   scrollToRenderItem,
+  setRenderItems,
 }) => {
   return (
     <div className='controller'>
@@ -40,6 +41,7 @@ const Controller = ({
               setIsDragging={setIsDragging}
               setSections={setSections}
               scrollToRenderItem={scrollToRenderItem}
+              setRenderItems={setRenderItems}
             />
           );
         })}

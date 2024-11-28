@@ -19,58 +19,74 @@ function App() {
       img: "section_category.png",
       title: "Category",
       visibility: true,
+      dragging: false,
     },
     {
       id: "s2",
       img: "section_design.png",
       title: "Design Your Own",
       visibility: true,
+      dragging: false,
     },
     {
       id: "s3",
       img: "section_inspiration.png",
       title: "Get Inspired",
       visibility: true,
+      dragging: false,
     },
     {
       id: "s4",
       img: "section_payment.png",
       title: "Payment Solutions",
       visibility: true,
+      dragging: false,
     },
     {
       id: "s5",
       img: "section_swatches.png",
       title: "Order Complimentary Swatches",
       visibility: true,
+      dragging: false,
     },
     {
       id: "s6",
       img: "section_consultation.png",
       title: "Book A Consultation",
       visibility: true,
+      dragging: false,
     },
   ]);
 
   const [renderItems, setRenderItems] = useState([
-    { id: "r1", img: "render_category.png", visibility: true },
-    { id: "r2", img: "render_design.png", visibility: true },
-    { id: "r3", img: "render_inspiration.png", visibility: true },
-    { id: "r4", img: "render_payment.png", visibility: true },
-    { id: "r5", img: "render_swatches.png", visibility: true },
-    { id: "r6", img: "render_consultation.png", visibility: true },
+    { id: "r1", img: "render_category.png", visibility: true, dragging: false },
+    { id: "r2", img: "render_design.png", visibility: true, dragging: false },
+    {
+      id: "r3",
+      img: "render_inspiration.png",
+      visibility: true,
+      dragging: false,
+    },
+    { id: "r4", img: "render_payment.png", visibility: true, dragging: false },
+    { id: "r5", img: "render_swatches.png", visibility: true, dragging: false },
+    {
+      id: "r6",
+      img: "render_consultation.png",
+      visibility: true,
+      dragging: false,
+    },
   ]);
-
-  const renderContainerRef = useRef(null);
 
   // prevent DND Kit's event listeners intercepting click events on the visibility toggle
   const sensor = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 8 } })
   );
 
-  // helper function
+  // helper function for getting position
   const getPositionById = (id, states) =>
     states.findIndex((state) => state.id === id);
+
+  const renderContainerRef = useRef(null);
 
   const handleDragMove = (e) => {
     const { active, over } = e;
@@ -79,9 +95,9 @@ function App() {
 
     const startPos = getPositionById(active.id, sections);
     const endPos = getPositionById(over.id, sections);
-    setSections((prev) => arrayMove(sections, startPos, endPos));
+    setSections(() => arrayMove(sections, startPos, endPos));
 
-    setRenderItems((prev) => arrayMove(renderItems, startPos, endPos));
+    setRenderItems(() => arrayMove(renderItems, startPos, endPos));
 
     // scrolling to the corresponding render item when a section is dragged
     const renderItemToScroll = renderContainerRef.current.querySelector(
@@ -100,12 +116,6 @@ function App() {
   const scrollToRenderItem = (sectionId) => {
     const renderItemId = sectionId.replace("s", "r"); // Map section ID to render ID
     const renderItemRef = renderRefs.current[renderItemId];
-    // if (renderItemRef) {
-    //   renderItemRef.scrollIntoView({
-    //     behavior: "smooth",
-    //     block: "center",
-    //   });
-    // }
 
     if (renderItemRef) {
       const renderBox = document.querySelector(".render_box");
@@ -122,6 +132,7 @@ function App() {
 
         renderBox.scrollTo({
           top: offsetAdjustment - 200,
+          // top: offsetAdjustment,
           behavior: "smooth",
         });
 
@@ -147,6 +158,7 @@ function App() {
           sections={sections}
           setSections={setSections}
           scrollToRenderItem={scrollToRenderItem}
+          setRenderItems={setRenderItems}
         />
 
         <Render
